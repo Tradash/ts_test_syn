@@ -1,0 +1,8 @@
+exports.q1 = { method: "getSeats",
+  settings: { filter: [ { field: "sector",
+                          value: 1 },
+                        { field: "category",
+                          value: 5   }],
+                        fields: ["id","seat","sector","line","category"]
+            }
+};

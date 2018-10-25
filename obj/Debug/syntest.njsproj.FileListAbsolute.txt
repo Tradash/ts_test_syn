@@ -1,0 +1,3 @@
+C:\tsproject\Sinergy\obj\Debug\syntest.njsproj.CoreCompileInputs.cache
+C:\tsproject\Sinergy\bin\Microsoft.NodejsTools.WebRole.dll
+C:\tsproject\Sinergy\obj\Debug\syntest.njsprojAssemblyReference.cache

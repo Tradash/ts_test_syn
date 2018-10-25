@@ -1,0 +1,70 @@
+<!doctype html>
+<meta charset="utf-8">
+<html>
+	<body onload="loadform()">
+		<form id ="f1" method="post">
+			<p>Сформируйте запрос: </p>
+			<textarea id='q1' name="json" value="" rows=10 cols=40><</textarea>
+			<hr>
+	  		<button onclick="xxsend()">Отправить запрос как x-www-form-urlencoded</button>
+	  		<br>
+	  		<button onClick="fdsend()">Отправить запрос как multipart/form-data</button>
+	  		<br>	  		
+		</form>
+		<button onClick="wssend()">Отправить запрос как websocket</button>
+		<hr>
+		<h3>Полученный запрос: </h3>
+		<label id="lbl1"></label>
+		<h3>Ответ </h3>
+		<p id="resp"></p>
+	<script>
+			const query = { method: "getSeats",
+  					settings: { filter: [ { field: "sector",
+                    					      value: 7 },
+                        					{ field: "category",
+                          					value: 4   }],
+                        fields: ["id","seat","sector","line","category"]
+            					}
+				};
+			const host = window.document.location.host.replace(/:.*/, '');
+			const ws = new WebSocket('ws://'+host+':5001');
+			ws.onmessage = (event) => {
+				console.log(event) ;
+				let d = JSON.parse(event.data);
+				//if (d.n === 1) {
+				//	document.getElementById("lbl1").innerHTML = JSON.stringify(d.d);
+				//} else {
+					document.getElementById("resp").innerHTML = event.data;	
+				//}
+			}
+			function fSubmit() {
+
+			}
+			function loadform() {
+				//document.getElementById("injson").value = JSON.stringify(query);
+				document.getElementById("q1").value = JSON.stringify(query);
+				//console.log(123);
+			}
+			function xxsend() {
+				var f = document.getElementById("f1");
+				f.enctype = "www-form-urlencoded";
+				f.action = "/result";
+				//console.log(44);
+				f.submit();
+			}	
+			function fdsend() {
+				var f = document.getElementById("f1");
+				f.enctype = "multipart/form-data"
+				f.action = "/result";
+				//console.log(55);
+				f.submit();
+			}	
+			function wssend() {
+				const data = document.getElementById("q1").value;
+				ws.send(data);
+				//
+			}
+			
+		</script>	
+	</body>
+</html>

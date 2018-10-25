@@ -1,0 +1,82 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "validate_lines",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "settings"
+  ],
+  "properties": {
+    "settings": {
+      "$id": "#/properties/settings",
+      "type": "object",
+      "title": "The Settings Schema",
+      "required": [
+        "filter",
+        "fields"
+      ],
+      "properties": {
+        "filter": {
+          "$id": "#/properties/settings/properties/filter",
+          "type": "array",
+          "title": "The Filter Schema",
+          "items": {
+            "$id": "#/properties/settings/properties/filter/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "field",
+              "value"
+            ],
+            "properties": {
+              "field": {
+                "$id": "#/properties/settings/properties/filter/items/properties/field",
+                "type": "string",
+                "title": "The Field Schema",
+                "default": "",
+                "examples": [
+                  "sector"
+                ],
+                "pattern": "^(id)|(name)|(event)$"
+              },
+              "value": {
+                "$id": "#/properties/settings/properties/filter/items/properties/value",
+                "type": [
+                  "string",
+                  "integer"
+                ],
+                "title": "The Value Schema",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              }
+            }
+          }
+        },
+        "fields": {
+          "$id": "#/properties/settings/properties/fields",
+          "type": "array",
+          "title": "The Fields Schema",
+          "items": {
+            "$id": "#/properties/settings/properties/fields/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "id",
+              "status",
+              "event",
+              "seat",
+              "sector",
+              "line",
+              "category"
+            ],
+            "pattern": "^(id)|(name)|(event)$"
+          }
+        }
+      }
+    }
+  }
+}
