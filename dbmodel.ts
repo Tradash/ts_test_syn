@@ -49,16 +49,16 @@ const getDataFromDataset = (d, qn, val) => {
   if (!valid) { return {error: val.errors, data: null}; }
   // Выделяем данные запроса
     const q = qn.settings;
-    // Если установлен  лимит
-    if (q.limit) {
-        limitDec = 1;
-        limit = q.limit;
-    }
-    // Если установлен сдвиг
-    if (q.offset) {
-        offset = q.offset;
-        offsetDec = 1;
-    }
+    
+    //if (q.limit) {
+    //    limitDec = 1;
+    //    limit = q.limit;
+    //}
+    
+    //if (q.offset) {
+    //    offset = q.offset;
+    //    offsetDec = 1;
+    //}
     for (let id in d) {
     // Поиск по условию запроса
     count = q.filter.filter((x) => d[id][x.field] == x.value ).length;
@@ -66,7 +66,7 @@ const getDataFromDataset = (d, qn, val) => {
         // Если все поля в запросе совпали, отбираем поля для отображения
             if (count === q.filter.length) {
                 // Если выбрали все по лимиту выходим из цикла
-                if (limit === 0) { break;}
+                //if (limit === 0) { break;}
                 record = {};
                 limit -= limitDec;
                 if (q.fields.length === 0) {
@@ -78,11 +78,17 @@ const getDataFromDataset = (d, qn, val) => {
                     }
                 }
                 // Если установлен offset, пропускаем пока счетчик не обнулиться
-                if (offset <= 0) { result = [...result, record]; }
-                offset -= offsetDec;
+                //if (offset <= 0) {
+                result = [...result, record];
+                //}
+                //offset -= offsetDec;
             }
         }
     }
+    // Если установлен  лимит
+    if (q.limit) { result = result.slice(0, q.limit); }
+    // Если установлен сдвиг
+    if (q.offset) { result = result.slice(q.offset); }
     return {error: null, data: result};
 };
 
