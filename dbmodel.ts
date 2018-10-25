@@ -41,21 +41,34 @@ function getLines(q: JSON) {
 
 const getDataFromDataset = (d, qn, val) => {
   let count; let record;
-  let result = [];
-  
+    let result = [];
+    let limit = 1, limitDec = 0;
+    let offset = 0, offsetDec = 0;
   // Проверка тела запроса
   const valid = val(qn);
   if (!valid) { return {error: val.errors, data: null}; }
   // Выделяем данные запроса
     const q = qn.settings;
-
+    // Если установлен  лимит
+    if (q.limit) {
+        limitDec = 1;
+        limit = q.limit;
+    }
+    // Если установлен сдвиг
+    if (q.offset) {
+        offset = q.offset;
+        offsetDec = 1;
+    }
     for (let id in d) {
     // Поиск по условию запроса
     count = q.filter.filter((x) => d[id][x.field] == x.value ).length;
         if (count !== 0) { 
         // Если все поля в запросе совпали, отбираем поля для отображения
             if (count === q.filter.length) {
+                // Если выбрали все по лимиту выходим из цикла
+                if (limit === 0) { break;}
                 record = {};
+                limit -= limitDec;
                 if (q.fields.length === 0) {
                     // если отбор полей не установлен, возвращаем все поля
                     record = d[id];
@@ -64,7 +77,9 @@ const getDataFromDataset = (d, qn, val) => {
                         record[q.fields[i]] = d[id][q.fields[i]];
                     }
                 }
-                result = [...result, record];
+                // Если установлен offset, пропускаем пока счетчик не обнулиться
+                if (offset <= 0) { result = [...result, record]; }
+                offset -= offsetDec;
             }
         }
     }

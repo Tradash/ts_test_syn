@@ -23,7 +23,9 @@
                     					      value: 7 },
                         					{ field: "category",
                           					value: 4   }],
-                        fields: ["id","seat","sector","line","category"]
+                        fields: ["id","seat","sector","line","category"],
+                        limit: 10,
+                        offset: 5
             					}
 				};
 			const host = window.document.location.host.replace(/:.*/, '');
@@ -31,12 +33,8 @@
 			ws.onmessage = (event) => {
 				console.log(event) ;
 				let d = JSON.parse(event.data);
-				//if (d.n === 1) {
-				//	document.getElementById("lbl1").innerHTML = JSON.stringify(d.d);
-				//} else {
-					document.getElementById("resp").innerHTML = event.data;	
-				//}
-			}
+				document.getElementById("resp").innerHTML = event.data;	
+			}	
 			function fSubmit() {
 
 			}

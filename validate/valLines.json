@@ -75,6 +75,20 @@
             ],
             "pattern": "^(id)|(name)|(event)$"
           }
+        },
+        "limit": {
+          "$id": "#/properties/settings/properties/limit",
+          "type": "integer",
+          "title": "The Limit Schema",
+          "default": 1,
+          "examples": [6]
+        },
+        "offset": {
+          "$id": "#/properties/settings/properties/offset",
+          "type": "integer",
+          "title": "The Offset Schema",
+          "default": 0,
+          "examples": [5]
         }
       }
     }

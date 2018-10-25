@@ -1,18 +1,22 @@
 {"method":"getSeats",
 "settings":{"filter":[{"field":"sector","value":7},{"field":"category","value":4}],
-"fields":["id","seat","sector","line","category"]}}
+"fields":["id","seat","sector","line","category"],
+"limit":10,"offset":1}}
 
 {"method":"getSectors",
 "settings":{"filter":[{"field":"scale","value":1},{"field":"category","value":1}],
-"fields":["id","name","event","translate_x","translate_y","scale","rotate","category"]}}
+"fields":["id","name","event","translate_x","translate_y","scale","rotate","category"],
+"limit":10,"offset":1}}
 
 {"method":"getLines",
 "settings":{"filter":[{"field":"id","value":5},{"field":"event","value":1}],
-"fields":["id","name","event"]}}
+"fields":["id","name","event"],
+"limit":10,"offset":1}}
 
 
 {"method":"getCategories",
 "settings":{"filter":[{"field":"event","value":1},{"field":"price","value":1900}],
-"fields":["id","name","about","price","event","color"]}}
+"fields":["id","name","about","price","event","color"],
+"limit":10,"offset":1}}
 
 
