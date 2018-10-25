@@ -20,7 +20,13 @@ exports.view = view;
 let getData = (q, db) => {
     let qn;
     if (typeof (q) === "string") {
-        qn = JSON.parse(q);
+        // Ошибка если полученная строка не конвертируется в JSON
+        try {
+            qn = JSON.parse(q);
+        }
+        catch (e) {
+            return { "error": "Found lexical error in the received query, please check query", "data": null };
+        }
     }
     else {
         qn = q;
@@ -34,6 +40,7 @@ let getData = (q, db) => {
     const result = db[qn.method](qn);
     return result;
 };
+// Функция для выделения текста запроса из POST
 function collectRequestData(request, callback) {
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
     if (request.headers['content-type'] === FORM_URLENCODED) {
@@ -59,7 +66,7 @@ const controller = (views, dbmodal) => {
         views.socket.send(JSON.stringify(result));
     }
     else {
-        // Обработка запрома из ХТТП
+        // Обработка запроса из ХТТП
         collectRequestData(views.req, (query) => {
             const result = getData(query, dbmodal);
             views.res.end(JSON.stringify(result));

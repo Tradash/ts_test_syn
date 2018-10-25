@@ -16,15 +16,19 @@ class view {
         this.sender = null;
 	}
 }
-interface resData {
-    error: JSON,
-    data: JSON
-}
 
 // Выролнение запроса
-let getData = (q: any, db:any):resData => {
+let getData = (q: any, db:any) => {
 	let qn;
-	if (typeof(q) === "string") { qn = JSON.parse(q)} 
+    if (typeof (q) === "string") {
+        // Ошибка если полученная строка не конвертируется в JSON
+        try {
+            qn = JSON.parse(q)
+        }
+        catch (e) {
+            return { "error": "Found lexical error in the received query, please check query", "data": null}
+        }
+    } 
 		else { qn = q};
 	// Проверка заголовка запроса
   	let valid = v.valmain(qn);
@@ -33,6 +37,7 @@ let getData = (q: any, db:any):resData => {
   	return result;
 }
 
+// Функция для выделения текста запроса из POST
 function collectRequestData(request, callback) {
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
     if(request.headers['content-type'] === FORM_URLENCODED) {
@@ -60,7 +65,7 @@ const controller = (views, dbmodal) => {
 		const result = getData(views.query, dbmodal);
 		views.socket.send(JSON.stringify(result));
     } else {
-        // Обработка запрома из ХТТП
+        // Обработка запроса из ХТТП
 		collectRequestData(views.req, (query) => {
             const result = getData(query, dbmodal);
             views.res.end(JSON.stringify(result));

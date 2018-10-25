@@ -25,7 +25,8 @@
                           					value: 4   }],
                         fields: ["id","seat","sector","line","category"],
                         limit: 10,
-                        offset: 5
+                        offset: 5,
+                        sort: {fields: ["id" , "line"], order: "asc"}
             					}
 				};
 			const host = window.document.location.host.replace(/:.*/, '');

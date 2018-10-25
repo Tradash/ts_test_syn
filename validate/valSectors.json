@@ -89,6 +89,44 @@
           "title": "The Offset Schema",
           "default": 0,
           "examples": [5]
+        },
+        "sort": {
+          "$id": "#/properties/settings/properties/sort",
+          "type": "object",
+          "title": "The Sort Schema",
+          "default": null,
+          "required": [
+            "fields",
+            "order"
+          ],
+          "properties": {
+            "fields": {
+              "$id": "#/properties/settings/properties/sort/properties/fields",
+              "type": "array",
+              "title": "The Fields Schema",
+              "items": {
+                "$id": "#/properties/settings/properties/sort/properties/fields/items",
+                "type": "string",
+                "title": "The Items Schema",
+                "default": "",
+                "examples": [
+                  "id",
+                  "line"
+                ],
+                "pattern": "^(id)|(name)|(event)|(translate_x)|(translate_y)|(scale)|(rotate)|(category)$"
+              }
+            },
+            "order": {
+              "$id": "#/properties/settings/properties/sort/properties/order",
+              "type": "string",
+              "title": "The Order Schema",
+              "default": "asc",
+              "examples": [
+                "asc"
+              ],
+              "pattern": "^(asc)|(desc)$"
+            }
+          }
         }
       }
     }

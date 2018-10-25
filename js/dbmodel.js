@@ -45,8 +45,6 @@ const getDataFromDataset = (d, qn, val) => {
     let count;
     let record;
     let result = [];
-    let limit = 1, limitDec = 0;
-    let offset = 0, offsetDec = 0;
     // Проверка тела запроса
     const valid = val(qn);
     if (!valid) {
@@ -54,48 +52,44 @@ const getDataFromDataset = (d, qn, val) => {
     }
     // Выделяем данные запроса
     const q = qn.settings;
-    //if (q.limit) {
-    //    limitDec = 1;
-    //    limit = q.limit;
-    //}
-    //if (q.offset) {
-    //    offset = q.offset;
-    //    offsetDec = 1;
-    //}
     for (let id in d) {
         // Поиск по условию запроса
         count = q.filter.filter((x) => d[id][x.field] == x.value).length;
         if (count !== 0) {
-            // Если все поля в запросе совпали, отбираем поля для отображения
+            // Если все поля в запросе совпали, добавляем запись
             if (count === q.filter.length) {
-                // Если выбрали все по лимиту выходим из цикла
-                //if (limit === 0) { break;}
-                record = {};
-                limit -= limitDec;
-                if (q.fields.length === 0) {
-                    // если отбор полей не установлен, возвращаем все поля
-                    record = d[id];
-                }
-                else {
-                    for (let i = 0; i < q.fields.length; i++) {
-                        record[q.fields[i]] = d[id][q.fields[i]];
-                    }
-                }
-                // Если установлен offset, пропускаем пока счетчик не обнулиться
-                //if (offset <= 0) {
-                result = [...result, record];
-                //}
-                //offset -= offsetDec;
+                result = [...result, d[id]];
             }
         }
     }
-    // Если установлен  лимит
-    if (q.limit) {
-        result = result.slice(0, q.limit);
+    // Если установлена сортировка
+    if (q.sort) {
+        result.sort((a, b) => {
+            for (let i = 0; i < q.sort.fields.length; i++) {
+                if (a[q.sort.fields[i]] > b[q.sort.fields[i]])
+                    return (q.sort.order === "asc") ? 1 : -1;
+                if (a[q.sort.fields[i]] < b[q.sort.fields[i]])
+                    return (q.sort.order === "asc") ? -1 : 1;
+            }
+            return 0;
+        });
+    }
+    // Если установлен отбор полей
+    if (q.fields.length !== 0) {
+        result = result.map(x => {
+            record = {};
+            for (let i = 0; i < q.fields.length; i++)
+                record[q.fields[i]] = x[q.fields[i]];
+            return record;
+        });
     }
     // Если установлен сдвиг
     if (q.offset) {
         result = result.slice(q.offset);
+    }
+    // Если установлен  лимит
+    if (q.limit) {
+        result = result.slice(0, q.limit);
     }
     return { error: null, data: result };
 };
