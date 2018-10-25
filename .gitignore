@@ -36,6 +36,8 @@ build/Release
 node_modules/
 jspm_packages/
 ldb/
+bin/
+obj/
 
 # TypeScript v1 declaration files
 typings/
@@ -62,3 +64,4 @@ typings/
 .next
 
 *~
+.vscode
