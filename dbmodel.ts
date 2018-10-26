@@ -35,11 +35,11 @@ function getLines(q: JSON) {
     return this.func(data.response.lines, q, this.val);
 };
 
-// @dbModel = Данные
-// @query = запрос
+// @dbData = Данные из БД
+// @query = запрос клиента
 // @val = функция валидации запроса
 
-const getDataFromDataset = (dbModel, query, val) => {
+const getDataFromDataset = (dbData, query, val) => {
   let count; let record;
     let result = [];
   // Проверка тела запроса
@@ -47,13 +47,13 @@ const getDataFromDataset = (dbModel, query, val) => {
   if (!valid) { return {error: val.errors, data: null}; }
   // Выделяем данные запроса
     const q = query.settings;
-    for (let id in dbModel) {
+    for (let id in dbData) {
     // Поиск по условию запроса
-    count = q.filter.filter((x) => dbModel[id][x.field] == x.value ).length;
+    count = q.filter.filter((x) => dbData[id][x.field] == x.value ).length;
         if (count !== 0) { 
         // Если все поля в запросе совпали, добавляем запись
             if (count === q.filter.length) {               
-                result = [...result, dbModel[id]];
+                result = [...result, dbData[id]];
             }
         }
     }
