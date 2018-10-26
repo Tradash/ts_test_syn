@@ -1,7 +1,8 @@
 const parse = require('querystring').parse;
 import multiparty from "multiparty";
-import v from "./valid"
+import validator from "./valid"
 
+// Класс с параметрами клиента
 class view {
     req: any;
     res: any;
@@ -18,26 +19,32 @@ class view {
 }
 
 // Выролнение запроса
-let getData = (q: any, db:any) => {
-	let qn;
-    if (typeof (q) === "string") {
+// @queryDirty - полученный запрос от клиента
+// @dbModal - Класс с функциями для обработки запросов
+
+let getData = (queryDirty, dbModal) => {
+	let query;
+    if (typeof (queryDirty) === "string") {
         // Ошибка если полученная строка не конвертируется в JSON
         try {
-            qn = JSON.parse(q)
+            query = JSON.parse(queryDirty)
         }
         catch (e) {
             return { "error": "Found lexical error in the received query, please check query", "data": null}
         }
     } 
-		else { qn = q};
+		else { query = queryDirty};
 	// Проверка заголовка запроса
-  	let valid = v.valmain(qn);
-    if (!valid) { return { "error": v.valmain.errors, "data": null }; }	
-  	const result = db[qn.method](qn);
+    let valid = validator.valmain(query);
+    if (!valid) { return { "error": validator.valmain.errors, "data": null }; }	
+  	const result = dbModal[query.method](query);
   	return result;
 }
 
 // Функция для выделения текста запроса из POST
+// @request - HTTP-запрос полученный от клиента
+// @callback - функция обратного вызова выделяющая запрос из полученных данных от клиентов
+
 function collectRequestData(request, callback) {
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
     if(request.headers['content-type'] === FORM_URLENCODED) {
@@ -58,6 +65,9 @@ function collectRequestData(request, callback) {
     }
 }
 
+// Функция выполняюшая роль контроллера
+// @views - Класс с параметрами клиента
+// @dbmodal - Класс с функциями для обработки запросов
 
 const controller = (views, dbmodal) => {
     if (views.sender === "ws") {

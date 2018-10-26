@@ -24,6 +24,7 @@
     <NodejsPort>5000</NodejsPort>
     <NodeExeArguments>
     </NodeExeArguments>
+    <DebuggerPort>9222</DebuggerPort>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />

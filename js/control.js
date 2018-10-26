@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const parse = require('querystring').parse;
 const multiparty_1 = __importDefault(require("multiparty"));
 const valid_1 = __importDefault(require("./valid"));
+// Класс с параметрами клиента
 class view {
     constructor() {
         this.req = null;
@@ -17,30 +18,34 @@ class view {
 }
 exports.view = view;
 // Выролнение запроса
-let getData = (q, db) => {
-    let qn;
-    if (typeof (q) === "string") {
+// @queryDirty - полученный запрос от клиента
+// @dbModal - Класс с функциями для обработки запросов
+let getData = (queryDirty, dbModal) => {
+    let query;
+    if (typeof (queryDirty) === "string") {
         // Ошибка если полученная строка не конвертируется в JSON
         try {
-            qn = JSON.parse(q);
+            query = JSON.parse(queryDirty);
         }
         catch (e) {
             return { "error": "Found lexical error in the received query, please check query", "data": null };
         }
     }
     else {
-        qn = q;
+        query = queryDirty;
     }
     ;
     // Проверка заголовка запроса
-    let valid = valid_1.default.valmain(qn);
+    let valid = valid_1.default.valmain(query);
     if (!valid) {
         return { "error": valid_1.default.valmain.errors, "data": null };
     }
-    const result = db[qn.method](qn);
+    const result = dbModal[query.method](query);
     return result;
 };
 // Функция для выделения текста запроса из POST
+// @request - HTTP-запрос полученный от клиента
+// @callback - функция обратного вызова выделяющая запрос из полученных данных от клиентов
 function collectRequestData(request, callback) {
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
     if (request.headers['content-type'] === FORM_URLENCODED) {
@@ -59,6 +64,9 @@ function collectRequestData(request, callback) {
         });
     }
 }
+// Функция выполняюшая роль контроллера
+// @views - Класс с параметрами клиента
+// @dbmodal - Класс с функциями для обработки запросов
 const controller = (views, dbmodal) => {
     if (views.sender === "ws") {
         // Обработка запроса из сокета

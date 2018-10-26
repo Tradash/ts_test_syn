@@ -1,59 +1,59 @@
 // Загрузка данных
 import data from "../data/bd_s.json";
-import v from "./valid"
+import validator from "./valid"
 
 
-// Класс для обработки запросов
+// Класс с функциями для обработки запросов
 export default class dbModel {
-    static getSeats: any = getSeats;
-    static getCategories: any = getCategories;
-    static getSectors: any = getSectors;
-    static getLines: any = getLines;
+    static getSeats: Function = getSeats;
+    static getCategories: Function = getCategories;
+    static getSectors: Function = getSectors;
+    static getLines: Function = getLines;
 }
 
 function getSeats(q: JSON) {
     this.func = getDataFromDataset;
-    this.val = v.valSeats;
+    this.val = validator.valSeats;
     return this.func(data.response.seats, q, this.val);
 };
 
 function getCategories(q: JSON) {
     this.func = getDataFromDataset;
-    this.val = v.valCategories;
+    this.val = validator.valCategories;
     return this.func(data.response.categories, q, this.val);
 };
 
 function getSectors(q: JSON) {
     this.func = getDataFromDataset;
-    this.val = v.valSectors;
+    this.val = validator.valSectors;
     return this.func(data.response.sectors, q, this.val);
 };
 
 function getLines(q: JSON) {
     this.func = getDataFromDataset;
-    this.val = v.valLines;
+    this.val = validator.valLines;
     return this.func(data.response.lines, q, this.val);
 };
 
-// d = Данные
-// qn = запрос
-// val = функция валидации запроса
+// @dbModel = Данные
+// @query = запрос
+// @val = функция валидации запроса
 
-const getDataFromDataset = (d, qn, val) => {
+const getDataFromDataset = (dbModel, query, val) => {
   let count; let record;
     let result = [];
   // Проверка тела запроса
-  const valid = val(qn);
+  const valid = val(query);
   if (!valid) { return {error: val.errors, data: null}; }
   // Выделяем данные запроса
-    const q = qn.settings;
-    for (let id in d) {
+    const q = query.settings;
+    for (let id in dbModel) {
     // Поиск по условию запроса
-    count = q.filter.filter((x) => d[id][x.field] == x.value ).length;
+    count = q.filter.filter((x) => dbModel[id][x.field] == x.value ).length;
         if (count !== 0) { 
         // Если все поля в запросе совпали, добавляем запись
             if (count === q.filter.length) {               
-                result = [...result, d[id]];
+                result = [...result, dbModel[id]];
             }
         }
     }

@@ -8,8 +8,7 @@ import { controller, view } from "./control"
 
 let views = new view();
 
-import dataStore from './dbmodel';
-//const db = dataStore;
+import dbModel from './dbmodel';
 
 import fs = require('fs');
 
@@ -19,7 +18,7 @@ ws.on('connection', (socket) => {
         views.socket = socket;
         views.query = data;
         views.sender = "ws";
-        controller(views, dataStore);
+        controller(views, dbModel);
   })
 })
 
@@ -31,7 +30,7 @@ const server = http.createServer((req, res) => {
         views.req = req;
         views.res = res;
         views.sender = "post";
-        controller(views, dataStore);        
+        controller(views, dbModel);        
     } 
     else {
         // Загрузка страницы для тестирования

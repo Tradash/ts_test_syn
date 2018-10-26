@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Загрузка данных
 const bd_s_json_1 = __importDefault(require("../data/bd_s.json"));
 const valid_1 = __importDefault(require("./valid"));
-// Класс для обработки запросов
+// Класс с функциями для обработки запросов
 class dbModel {
 }
 dbModel.getSeats = getSeats;
@@ -38,27 +38,27 @@ function getLines(q) {
     return this.func(bd_s_json_1.default.response.lines, q, this.val);
 }
 ;
-// d = Данные
-// qn = запрос
-// val = функция валидации запроса
-const getDataFromDataset = (d, qn, val) => {
+// @dbModel = Данные
+// @query = запрос
+// @val = функция валидации запроса
+const getDataFromDataset = (dbModel, query, val) => {
     let count;
     let record;
     let result = [];
     // Проверка тела запроса
-    const valid = val(qn);
+    const valid = val(query);
     if (!valid) {
         return { error: val.errors, data: null };
     }
     // Выделяем данные запроса
-    const q = qn.settings;
-    for (let id in d) {
+    const q = query.settings;
+    for (let id in dbModel) {
         // Поиск по условию запроса
-        count = q.filter.filter((x) => d[id][x.field] == x.value).length;
+        count = q.filter.filter((x) => dbModel[id][x.field] == x.value).length;
         if (count !== 0) {
             // Если все поля в запросе совпали, добавляем запись
             if (count === q.filter.length) {
-                result = [...result, d[id]];
+                result = [...result, dbModel[id]];
             }
         }
     }

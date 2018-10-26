@@ -10,7 +10,6 @@ const ws = new wsServer({ port: 5001 });
 const control_1 = require("./control");
 let views = new control_1.view();
 const dbmodel_1 = __importDefault(require("./dbmodel"));
-//const db = dataStore;
 const fs = require("fs");
 // Обработка вэбсокета
 ws.on('connection', (socket) => {
