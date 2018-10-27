@@ -1,7 +1,7 @@
 {
   "author": "Bobkov Alexandr",
   "bugs": {
-    "url": "https://github.com/Tradash/test_syn/issues"
+    "url": "https://github.com/Tradash/ts_test_syn/issues"
   },
   "dependencies": {
     "@types/node": "^10.12.0",
@@ -11,7 +11,7 @@
     "ws": "^6.1.0"
   },
   "description": "Тестовое задание на вакансию",
-  "homepage": "https://github.com/Tradash/test_syn#readme",
+  "homepage": "https://github.com/Tradash/ts_test_syn#readme",
   "keywords": [
     "Node"
   ],
@@ -20,7 +20,7 @@
   "name": "test_syn",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tradash/test_syn.git"
+    "url": "git+https://github.com/Tradash/ts_test_syn.git"
   },
   "scripts": {
     "start": "node /js/main.js"
