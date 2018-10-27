@@ -42,9 +42,7 @@
     <TypeScriptCompile Include="main.ts" />
     <TypeScriptCompile Include="valid.ts" />
     <Content Include="data\index.html" />
-    <Content Include="data\index.html~" />
     <Content Include="data\bd_s.json" />
-    <Content Include="data\query1.json" />
     <Content Include="validate\valCategories.json" />
     <Content Include="validate\valLines.json" />
     <Content Include="validate\valmain.json" />
