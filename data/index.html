@@ -13,8 +13,6 @@
 		</form>
 		<button onClick="wssend()">Отправить запрос как websocket</button>
 		<hr>
-		<h3>Полученный запрос: </h3>
-		<label id="lbl1"></label>
 		<h3>Ответ </h3>
 		<p id="resp"></p>
 	<script>
@@ -40,15 +38,12 @@
 
 			}
 			function loadform() {
-				//document.getElementById("injson").value = JSON.stringify(query);
 				document.getElementById("q1").value = JSON.stringify(query);
-				//console.log(123);
 			}
 			function xxsend() {
 				var f = document.getElementById("f1");
 				f.enctype = "www-form-urlencoded";
 				f.action = "/result";
-				//console.log(44);
 				f.submit();
 			}	
 			function fdsend() {

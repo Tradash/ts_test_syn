@@ -41,7 +41,7 @@ let getData = (queryDirty, dbModal) => {
   	return result;
 }
 
-// Функция для выделения текста запроса из POST
+// Функция для выделения текста запроса из POST request
 // @request - HTTP-запрос полученный от клиента
 // @callback - функция обратного вызова выделяющая запрос из полученных данных от клиентов
 
@@ -53,13 +53,15 @@ function collectRequestData(request, callback) {
             body += chunk.toString();
         });
         request.on('end', () => {
-            callback(parse(body).json);
+            let bodyJson = parse(body);
+            let key = Object.keys(bodyJson); 
+            callback(bodyJson[Object.keys(bodyJson)[0]]);
         });
     }
     else {
         let form = new multiparty.Form();
-        form.parse(request, function(err, fields, files) {
-            callback(fields.json[0]);
+        form.parse(request, function (err, fields, files) {
+            callback(fields[Object.keys(fields)[0]][0]);
       });
         
     }
