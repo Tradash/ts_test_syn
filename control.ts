@@ -23,21 +23,25 @@ class view {
 // @dbModal - Класс с функциями для обработки запросов
 
 let getData = (queryDirty, dbModal) => {
-	let query;
+	let query: object;
     if (typeof (queryDirty) === "string") {
         // Ошибка если полученная строка не конвертируется в JSON
         try {
             query = JSON.parse(queryDirty)
         }
         catch (e) {
-            return { "error": "Found lexical error in the received query, please check query", "data": null}
+            return { "error": "Found lexical error in the received query, please check query", "data": null }
         }
-    } 
-		else { query = queryDirty};
+    }
+    else if (typeof (queryDirty) === "object") {
+        query = queryDirty
+    } else {
+        return { "error": "Found lexical error in the received query, please check query", "data": null }
+    }
 	// Проверка заголовка запроса
     let valid = validator.valmain(query);
     if (!valid) { return { "error": validator.valmain.errors, "data": null }; }	
-  	const result = dbModal[query.method](query);
+  	const result = dbModal[query['method']](query);
   	return result;
 }
 

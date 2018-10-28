@@ -1,6 +1,8 @@
-## test_syn
+## ts_test_syn
 
 #Тестовое задание для Синергии
+
+Задание: https://github.com/Tradash/ts_test_syn/blob/master/task.md
 
 Файл запуска: main.ts
 
