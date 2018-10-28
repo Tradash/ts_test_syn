@@ -71,7 +71,7 @@ http обработчик должен принимать только POST за
 ```
 {
 	method: 'getSeats',
-    settings: {
+    	settings: {
 		filter: [
 					{
 						'field': 'sector',
